@@ -35,6 +35,6 @@ services:
   # 2. The PostgreSQL Database (Free Tier)
   - type: pserv
     name: n8n-database
-    env: postgres
+    runtime: postgres
     plan: free # This is the free database plan
     
