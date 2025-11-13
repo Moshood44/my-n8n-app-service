@@ -37,11 +37,6 @@ services:
 databases:
   - name: n8n-database # This name is referenced by the 'fromDatabase' key above
     plan: free
-#```eof
-
----
-
-### 2. The `Dockerfile` file
 
 
 
