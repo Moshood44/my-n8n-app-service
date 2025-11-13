@@ -6,16 +6,16 @@ services:
   - type: web
     name: n8n
     env: docker
-    dockerfilePath: ./Dockerfile  # We will create this file next
+    dockerfilePath: ./Dockerfile
     plan: free # This is the "sleeps after 15 mins" free plan
     
-    # Environment variables n8n needs
+    # Environment variables n8n needs to connect to the database
     envVars:
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_DATABASE
         fromDatabase:
-          name: n8n-database # The name of our free database below
+          name: n8n-database # Must match the 'name' of the database below
           property: database
       - key: DB_POSTGRESDB_HOST
         fromDatabase:
@@ -31,10 +31,18 @@ services:
           property: password
     
     healthCheckPath: /healthz
-    
-  # 2. The PostgreSQL Database (Free Tier)
-  - type: databases
-    name: n8n-database
-    runtime: postgres
-    plan: free # This is the free database plan
-    
+
+# 2. The PostgreSQL Database (Free Tier)
+# This is NOT part of 'services'. It is its own top-level key.
+databases:
+  - name: n8n-database # This name is referenced by the 'fromDatabase' key above
+    plan: free
+```eof
+
+---
+
+### 2. The `Dockerfile` file
+
+
+
+With **both** of these files in your GitHub repository, the "Blueprint" system on Render will successfully build both your n8n app and its free database. My apologies for the confusion.
