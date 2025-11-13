@@ -33,7 +33,7 @@ services:
     healthCheckPath: /healthz
     
   # 2. The PostgreSQL Database (Free Tier)
-  - type: pserv
+  - type: psql
     name: n8n-database
     runtime: postgres
     plan: free # This is the free database plan
