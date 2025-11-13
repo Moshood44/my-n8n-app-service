@@ -1,0 +1,41 @@
+# This is the "blueprint" file for Render.com
+# It tells Render how to build your n8n app and its database for free.
+
+services:
+  # 1. The n8n Web Service (Free Tier)
+  - type: web
+    name: n8n
+    env: docker
+    dockerfilePath: ./Dockerfile  # We will create this file next
+    plan: free # This is the "sleeps after 15 mins" free plan
+    
+    # Environment variables n8n needs
+    envVars:
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_DATABASE
+        fromDatabase:
+          name: n8n-database # The name of our free database below
+          property: database
+      - key: DB_POSTGRESDB_HOST
+        fromDatabase:
+          name: n8n-database
+          property: host
+      - key: DB_POSTGRESDB_USER
+        fromDatabase:
+          name: n8n-database
+          property: user
+      - key: DB_POSTGRESDB_PASSWORD
+        fromDatabase:
+          name: n8n-database
+          property: password
+    
+    healthCheckPath: /healthz
+    
+  # 2. The PostgreSQL Database (Free Tier)
+  - type: pserv
+    name: n8n-database
+    env: postgres
+    plan: free # This is the free database plan
+    databaseName: n8n
+    user: n8n
