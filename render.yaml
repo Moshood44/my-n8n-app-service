@@ -40,4 +40,4 @@ databases:
 
 
 
-With **both** of these files in your GitHub repository, the "Blueprint" system on Render will successfully build both your n8n app and its free database. My apologies for the confusion.
+
