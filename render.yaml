@@ -37,5 +37,4 @@ services:
     name: n8n-database
     env: postgres
     plan: free # This is the free database plan
-    databaseName: n8n
-    user: n8n
+    
