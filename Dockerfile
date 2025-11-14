@@ -5,4 +5,6 @@ FROM n8nio/n8n
 ENV N8N_PORT=${PORT}
 # We set the user to 'node' which is safer
 USER node
-
+# This is the fix. We are forcing n8n to start
+# and listen on the correct port from Render.
+CMD ["n8n", "start", "--port=${PORT}"]
