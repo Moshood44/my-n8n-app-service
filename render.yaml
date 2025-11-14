@@ -1,3 +1,11 @@
+
+### 2. The `render.yaml` (The Fix)
+
+This is the *most important* fix. We need to add one line to your `render.yaml` file to tell n8n to use Render's port.
+
+Please **replace everything in your `render.yaml`** with this new code. The only addition is line 13: `key: N8N_PORT`.
+
+ yaml:render.yaml (FINAL v6):render.yaml
 # This is the "blueprint" file for Render.com
 # It tells Render how to build your n8n app and its database for free.
 
@@ -5,19 +13,24 @@ services:
   # 1. The n8n Web Service (Free Tier)
   - type: web
     name: n8n
-    env: docker
+    runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free # This is the "sleeps after 15 mins" free plan
     
     # Environment variables n8n needs to connect to the database
     envVars:
+      # THIS IS THE FIX:
+      # Tell n8n to use the port Render provides ($PORT)
+      - key: N8N_PORT
+        value: ${PORT}
+      
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_DATABASE
         fromDatabase:
           name: n8n-database # Must match the 'name' of the database below
           property: database
-      - key: DB_POSTGRESDB_HOST
+      - key: DB_POSTGGRESDB_HOST
         fromDatabase:
           name: n8n-database
           property: host
@@ -37,7 +50,4 @@ services:
 databases:
   - name: n8n-database # This name is referenced by the 'fromDatabase' key above
     plan: free
-
-
-
 
