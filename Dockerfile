@@ -5,4 +5,4 @@ FROM n8nio/n8n
 ENV N8N_PORT=${PORT}
 # We set the user to 'node' which is safer
 USER node
-```eof
+
